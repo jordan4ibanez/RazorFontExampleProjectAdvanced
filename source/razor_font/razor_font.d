@@ -754,6 +754,8 @@ void renderToCanvas(double posX, double posY, const double fontSize, string text
     
     // Turn this back on because it can become a confusing nightmare
     shadowColoringEnabled = true;
+    // Switch back to black because this also can become a confusing nightmare
+    switchShadowColor(0,0,0);
 }
 
 /**
