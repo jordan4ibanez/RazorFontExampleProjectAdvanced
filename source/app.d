@@ -19,6 +19,7 @@ import delta_time;
 
 void main()
 {
+    
     Window.initialize();
     Window.setTitle("RazorFont Example Advanced");
 
