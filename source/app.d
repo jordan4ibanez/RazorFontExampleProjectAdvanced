@@ -1,6 +1,6 @@
 import std.stdio;
 
-import Font = razor_font.razor_font;
+import Font = razor_font;
 
 import Window  = window.window;
 import Camera  = camera.camera;
@@ -253,9 +253,6 @@ void main()
 
         /**
         Let's combine them!
-
-        We're going to reuse some variables from before because I don't feel like
-        making a bunch more for this part :P
         */
 
         string combined = "Now combine 'em!";
@@ -294,6 +291,7 @@ void main()
             }
         }
         
+        // Remember: Move then rotate!
         Font.moveChar(newCursorPos + newLetterIndex, 0, newLetterOffsetY * 2.0);
         Font.moveChar(newCursorPos + newLetterIndex + newRealTextLength, 0, newLetterOffsetY * 2.0);
 
