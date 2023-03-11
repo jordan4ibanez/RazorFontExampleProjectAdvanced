@@ -1,7 +1,7 @@
 /**
 The Sharpest Font Library For D Game Development
 */
-module razor_font;
+module razor_font.razor_font;
 
 import std.conv;
 import std.file;
@@ -811,7 +811,27 @@ your current index into the string by this size.
 Note: This is in pixel coordinates.
 */
 void moveChar(int index, double posX, double posY) {
-    
+    // This gets a bit confusing, so I'm going to write it out verbosely to be able to read/maintain it
+
+    // Move to cursor position in vertexCache
+    const int baseIndex = index * 8;
+
+    // Top left
+    vertexCache[baseIndex    ] += posX; // X
+    vertexCache[baseIndex + 1] += posY; // Y
+
+    // Bottom left
+    vertexCache[baseIndex + 2] += posX; // X
+    vertexCache[baseIndex + 3] += posY; // Y
+
+    // Bottom right
+    vertexCache[baseIndex + 4] += posX; // X
+    vertexCache[baseIndex + 5] += posY; // Y
+
+    // Top right
+    vertexCache[baseIndex + 6] += posX; // X
+    vertexCache[baseIndex + 7] += posY; // Y
+
 }
 
 //! ============================ END GRAPHICS DISPATCH =============================
