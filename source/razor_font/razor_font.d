@@ -757,8 +757,8 @@ void renderToCanvas(double posX, double posY, const double fontSize, string text
         }
         renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false);
 
-        // shadowOffsetX = 0.05;
-        // shadowOffsetY = 0.05;
+        shadowOffsetX = 0.05;
+        shadowOffsetY = 0.05;
     }
     
     // Turn this back on because it can become a confusing nightmare
