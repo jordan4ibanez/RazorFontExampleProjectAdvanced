@@ -293,10 +293,9 @@ void main()
                 }
             }
         }
-
-        // We're going to offset the foreground by twice as much to create a 3d effect!
+        
         Font.moveChar(newCursorPos + newLetterIndex, 0, newLetterOffsetY * 2.0);
-        Font.moveChar(newCursorPos + newLetterIndex + newRealTextLength, 0, newLetterOffsetY);
+        Font.moveChar(newCursorPos + newLetterIndex + newRealTextLength, 0, newLetterOffsetY * 2.0);
 
         double newRotation = (newProgress / 40.0) * Math.PI2;
 
