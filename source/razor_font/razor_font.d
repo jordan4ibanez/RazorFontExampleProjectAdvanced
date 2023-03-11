@@ -887,16 +887,16 @@ void rotateChar(int index, double rotation, bool isDegrees = false) {
 
 
     topLeft.x += centerPoint.x;
-    topLeft.y -= centerPoint.y;
+    topLeft.y += centerPoint.y;
 
     bottomLeft.x += centerPoint.x;
-    bottomLeft.y -= centerPoint.y;
+    bottomLeft.y += centerPoint.y;
 
     bottomRight.x += centerPoint.x;
-    bottomRight.y -= centerPoint.y;
+    bottomRight.y += centerPoint.y;
 
     topRight.x += centerPoint.x;
-    topRight.y -= centerPoint.y;
+    topRight.y += centerPoint.y;
 
 
     // topLeft.add(Vector3d(centerPoint.x, topLeftDiff.y, centerPoint.z));
