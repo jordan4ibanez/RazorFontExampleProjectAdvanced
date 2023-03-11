@@ -1,6 +1,6 @@
 import std.stdio;
 
-import Font = razor_font;
+import Font = razor_font.razor_font;
 
 import Window  = window.window;
 import Camera  = camera.camera;
@@ -119,7 +119,7 @@ void main()
 
         So let's do that again without including the shadow
         */
-
+        
         string newInfoString = "without";
 
         textSize = Font.getTextSize(fontSize, newInfoString);
@@ -137,13 +137,23 @@ void main()
         Also, the shadow offset resets to the default value so you don't
         end up with a headache trying to figure out where your logic
         loop is leaking memory allocations back into the offset!
-        
+
 
         Now let's get started showcasing a brand new feature:
         Text manipulation! :D
         */
 
+        Font.switchColors(0,0,0);
         string moveText = "Woooo!";
+        const auto moveTextFontSize = Font.getTextSize(50, moveText);
+        // Center it
+        double posX = (Window.getWidth / 2.0) - (moveTextFontSize.width / 2.0);
+        posY = (Window.getHeight / 2.0) - (moveTextFontSize.height / 2.0);
+        Font.renderToCanvas(posX, posY, fontSize, moveText);
+
+        int cursorPos = Font.getCurrentCharacterIndex() - Font.getTextRenderableCharsLength(moveText);
+        
+        Font.moveChar(cursorPos, 10, 100);
 
 
 
