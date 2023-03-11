@@ -19,7 +19,6 @@ import delta_time;
 
 void main()
 {
-    
     Window.initialize();
     Window.setTitle("RazorFont Example Advanced");
 
@@ -55,7 +54,11 @@ void main()
     Font.createFont("example_fonts/totally_original", "mc", true);    
     Font.selectFont("mc");
     
+    // I think you get the deal with setting up these vars by now :P
     double rads = 0.0;
+    int letterIndex = 0;
+    double letterOffsetY = 0.0;
+    int letterUp = true;
     
     while (!Window.shouldClose()) {
 
@@ -105,6 +108,7 @@ void main()
         // So this is it with the calculation
         Font.enableShadows();
         Font.switchColors(1,0,0);
+        Font.setShadowOffset(offsetX, offsetY);
         string infoString = "With";
         auto textSize = Font.getTextSize(fontSize, infoString);
         double posY = Window.getHeight - textSize.height;
@@ -122,7 +126,7 @@ void main()
         */
         
         string newInfoString = "without";
-
+        Font.setShadowOffset(offsetX, offsetY);
         textSize = Font.getTextSize(fontSize, newInfoString);
         Font.enableShadows();
         posY = Window.getHeight - textSize.height;
@@ -144,17 +148,59 @@ void main()
         Text manipulation! :D
         */
 
-        Font.switchColors(0,0,0);
+        Font.switchColors(0,0,1);
         string moveText = "Woooo!";
         const auto moveTextFontSize = Font.getTextSize(50, moveText);
+        // Enabling shadows for example
+        Font.enableShadows();
         // Center it
         double posX = (Window.getWidth / 2.0) - (moveTextFontSize.width / 2.0);
         posY = (Window.getHeight / 2.0) - (moveTextFontSize.height / 2.0);
         Font.renderToCanvas(posX, posY, fontSize, moveText);
 
-        int cursorPos = Font.getCurrentCharacterIndex() - Font.getTextRenderableCharsLength(moveText);
+        const int realTextLength = Font.getTextRenderableCharsLength(moveText);
+
+        // You'll know why it's (realTextLength * 2) soon
+        int cursorPos = Font.getCurrentCharacterIndex() - (realTextLength * 2);
+
+        // Doing this a bit more verbosely for the tutorial
+
+        const double multiplier = 100;
+        // Move up
+        if (letterUp) {
+            letterOffsetY += getDelta() * multiplier;
+
+            if (letterOffsetY >= 20) {
+                letterOffsetY = 20;
+                letterUp = false;
+            }
+        }
+        // Move down
+        else {
+            letterOffsetY -= getDelta() * multiplier;
+            
+            if (letterOffsetY <= 0) {
+                letterOffsetY = 0;
+                letterUp = true;
+                // Move to next letter or wrap back around
+                letterIndex++;
+                if (letterIndex >= realTextLength) {
+                    letterIndex = 0;
+                }
+            }
+        }
         
-        Font.moveChar(cursorPos, 10, 100);
+        // Now move the base char
+        Font.moveChar(cursorPos + letterIndex, 0, letterOffsetY);
+
+        /**
+        The shadow is striped in memory EXACTLY N (number of renderable characters)
+        after the foreground!
+
+        So all we have to do is  move it forwards that many times to also move the shadow
+        */
+        Font.moveChar(cursorPos + letterIndex + realTextLength, 0, letterOffsetY);
+        
 
 
 
