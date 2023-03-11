@@ -831,7 +831,87 @@ void moveChar(int index, double posX, double posY) {
     // Top right
     vertexCache[baseIndex + 6] += posX; // X
     vertexCache[baseIndex + 7] -= posY; // Y
+}
 
+/**
+Rotate a character around the centerpoint of it's face.
+
+Note: This defaults to radians by default.
+
+Note: If you use moveChar() with this, you MUST do moveChar() first!
+*/
+void rotateChar(int index, double rotation, bool isDegrees = false) {
+
+    // This is why my doml is required
+    import std.stdio;
+    import doml.geometry_utils;
+    import doml.math;
+    import doml.vector_3d;
+    import doml.matrix_4d;
+
+    if (isDegrees) {
+        immutable radToDegrees = 180.0 / PI;
+        rotation *= radToDegrees;
+    }
+
+    /**
+    This is written out even more verbosely than moveChar()
+    so you can see why you must do moveChar() first.
+    */
+
+    // Move to cursor position in vertexCache
+    const int baseIndex = index * 8;
+
+    // Convert to 3d to suppliment to 4x4 matrix
+    Vector3d topLeft     = Vector3d(vertexCache[baseIndex    ], vertexCache[baseIndex + 1], 0);
+    Vector3d bottomLeft  = Vector3d(vertexCache[baseIndex + 2], vertexCache[baseIndex + 3], 0);
+    Vector3d bottomRight = Vector3d(vertexCache[baseIndex + 4], vertexCache[baseIndex + 5], 0);
+    Vector3d topRight    = Vector3d(vertexCache[baseIndex + 6], vertexCache[baseIndex + 7], 0);
+    
+    Vector3d centerPoint = Vector3d((topLeft.x + topRight.x) / 2.0,  (topLeft.y + bottomLeft.y) / 2.0, 0);
+
+    Vector3d topLeftDiff      = Vector3d(topLeft)    .sub(centerPoint);
+    Vector3d bottomLeftDiff   = Vector3d(bottomLeft) .sub(centerPoint);
+    Vector3d bottomRighttDiff = Vector3d(bottomRight).sub(centerPoint);
+    Vector3d topRighttDiff    = Vector3d(topRight)   .sub(centerPoint);
+
+    
+
+    // These calculations also store the new data in the variables we created above
+    // We must center the coordinates into real coordinates
+
+    Matrix4d().rotate(rotation, 0,0,1).translate(topLeftDiff)     .getTranslation(topLeft);
+    Matrix4d().rotate(rotation, 0,0,1).translate(bottomLeftDiff)  .getTranslation(bottomLeft);
+    Matrix4d().rotate(rotation, 0,0,1).translate(bottomRighttDiff).getTranslation(bottomRight);
+    Matrix4d().rotate(rotation, 0,0,1).translate(topRighttDiff)   .getTranslation(topRight);
+
+
+    topLeft.x += centerPoint.x;
+    topLeft.y -= centerPoint.y;
+
+    bottomLeft.x += centerPoint.x;
+    bottomLeft.y -= centerPoint.y;
+
+    bottomRight.x += centerPoint.x;
+    bottomRight.y -= centerPoint.y;
+
+    topRight.x += centerPoint.x;
+    topRight.y -= centerPoint.y;
+
+
+    // topLeft.add(Vector3d(centerPoint.x, topLeftDiff.y, centerPoint.z));
+
+    vertexCache[baseIndex    ] = topLeft.x;
+    vertexCache[baseIndex + 1] = topLeft.y;
+
+    vertexCache[baseIndex + 2] = bottomLeft.x;
+    vertexCache[baseIndex + 3] = bottomLeft.y;
+
+    vertexCache[baseIndex + 4] = bottomRight.x;
+    vertexCache[baseIndex + 5] = bottomRight.y;
+
+    vertexCache[baseIndex + 6] = topRight.x;
+    vertexCache[baseIndex + 7] = topRight.y;
 }
 
 //! ============================ END GRAPHICS DISPATCH =============================
