@@ -26,14 +26,14 @@ Counts are so we can grab a slice of this information because anything after it 
 */
 /// The current character limit (letters in string)
 private immutable int CHARACTER_LIMIT = 4096;
-/// 4 Vertex positions of vec2 in a char
+/// 4 vec2 (so 8 per char) vertex positions
 private double[4 * 2 * CHARACTER_LIMIT] vertexCache;
-// 4 vec4 colors (so 16 per char) - defaults to 0,0,0,1 rgba
+// 4 vec4 (so 16 per char) colors - defaults to 0,0,0,1 rgba
 private double[4 * 4 * CHARACTER_LIMIT] colorCache;
 
-/// 8 (4 vec2) texture coordinate positions in a char
+/// 4 vec2 (so 8 per char) texture coordinate positions
 private double[8 * CHARACTER_LIMIT] textureCoordinateCache;
-/// 6 (2 tris) indices in a char
+/// 2 tris (so 6 per char) indices
 private int[6 * CHARACTER_LIMIT] indicesCache;
 /// The count of each of these so we can grab a slice of data fresh out of the oven, delicious!
 private int vertexCount            = 0;
