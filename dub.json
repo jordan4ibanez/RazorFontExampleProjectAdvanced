@@ -3,21 +3,22 @@
 		"Jordan"
 	],
 	"copyright": "Copyright © 2023, Jordan",
-    "dependencies": {
+	"dependencies": {
 		"arsd-official:png": "~>10.9.8",
 		"bindbc-glfw": "~>1.0.1",
 		"bindbc-opengl": "~>1.0.4",
 		"delta_time": "~>1.0.5",
 		"doml": "~>1.0.1",
-		"fast_noise": "~>1.0.5"
+		"fast_noise": "~>1.0.5",
+		"razorfont": "~>1.3.1"
 	},
 	"description": "An advanced tutorial on how to user RazorFont.",
-    "libs-posix": [
+	"libs-posix": [
 		"z"
 	],
 	"license": "MIT",
 	"name": "razorfontexampleadvanced",
-    "versions": [
+	"versions": [
 		"GLFW_33",
 		"GL_41"
 	]
