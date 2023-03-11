@@ -749,7 +749,7 @@ void renderToCanvas(double posX, double posY, const double fontSize, string text
                 shadowColor[3]
             );
         }
-        renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, true);
+        renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false);
     }
     
     // Turn this back on because it can become a confusing nightmare
