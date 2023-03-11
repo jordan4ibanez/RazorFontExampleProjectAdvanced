@@ -26,8 +26,8 @@ Counts are so we can grab a slice of this information because anything after it 
 */
 /// The current character limit (letters in string)
 private immutable int CHARACTER_LIMIT = 4096;
-/// 4 Vertex positions in a char
-private double[4 * CHARACTER_LIMIT] vertexCache;
+/// 4 Vertex positions of vec2 in a char
+private double[4 * 2 * CHARACTER_LIMIT] vertexCache;
 // 4 vec4 colors (so 16 per char) - defaults to 0,0,0,1 rgba
 private double[4 * 4 * CHARACTER_LIMIT] colorCache;
 
