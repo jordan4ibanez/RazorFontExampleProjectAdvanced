@@ -90,25 +90,64 @@ void main()
         Font.setShadowOffset(offsetX, offsetY);
 
         // You can switch the shadow color on the fly
-        Font.switchShadowColor(0,0,0);
-        // Font.disableShadowColoring();
+        Font.switchShadowColor(0,0,1);
 
         int fontSize = 50;
         string hello = "hi there";
-
-        auto textSize = Font.getTextSize(fontSize, hello);
-
         Font.renderToCanvas(100, 100, fontSize, hello);
 
+        /**
+        You must enable shadows before you get the size of the text with shadows
+        IF you want to include it in your calculation.
+        */
 
-        Font.switchColors(0,0,0);
-        string infoString = "Sizing auto calculates shadows";
-
-        textSize = Font.getTextSize(fontSize, infoString);
-
+        // So this is it with the calculation
+        Font.enableShadows();
+        Font.switchColors(1,0,0);
+        string infoString = "With";
+        auto textSize = Font.getTextSize(fontSize, infoString);
         double posY = Window.getHeight - textSize.height;
+        Font.renderToCanvas(10, posY, fontSize, infoString);
+        /**
+        You see how the shadow is moving up and down and the text is moving
+        left and right? This is because we are subtracting the circular motion
+        from the individual components of the text and creating a sawing motion
+        between two separate axis.
 
-        Font.renderToCanvas(0, posY, fontSize, infoString);
+        The motion is still there, but it's constantly being fought by repositioning 
+        the y position of the font.
+
+        So let's do that again without including the shadow
+        */
+
+        string newInfoString = "without";
+
+        textSize = Font.getTextSize(fontSize, newInfoString);
+        Font.enableShadows();
+        posY = Window.getHeight - textSize.height;
+        Font.renderToCanvas(200, posY, fontSize, newInfoString);
+
+        /**
+        See? That difference can be extremely useful!
+
+        Did you notice that I set the shadow color to blue,
+        yet it didn't affect "with" and "without"? This is because
+        the shadow color will reset back to black when you renderToCanvas().
+
+        Also, the shadow offset resets to the default value so you don't
+        end up with a headache trying to figure out where your logic
+        loop is leaking memory allocations back into the offset!
+        
+
+        Now let's get started showcasing a brand new feature:
+        Text manipulation! :D
+        */
+
+        string moveText = "Woooo!";
+
+
+
+
         
 
         
