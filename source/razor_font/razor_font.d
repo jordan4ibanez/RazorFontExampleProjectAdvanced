@@ -330,6 +330,8 @@ Allows you to set the offet of the text shadowing.
 
 This is RELATIVE via the font size so it will remain consistent
 across any font size!
+
+Remember: Offset will become reset to default when you call renderToCanvas()
 */
 void setShadowOffset(double x, double y) {
     shadowOffsetX = x / 10.0;
@@ -754,6 +756,9 @@ void renderToCanvas(double posX, double posY, const double fontSize, string text
             );
         }
         renderToCanvas(posX + (shadowOffsetX * fontSize), posY + (shadowOffsetY * fontSize), fontSize, text, false);
+
+        // shadowOffsetX = 0.05;
+        // shadowOffsetY = 0.05;
     }
     
     // Turn this back on because it can become a confusing nightmare
@@ -794,6 +799,19 @@ back on because it can become a confusing nightmare if not done like this.
 */
 void disableShadowColoring() {
     shadowColoringEnabled = false;
+}
+
+/**
+Allows you to manually move around characters.
+
+Note: You can manually move around shadows by getting the
+renderable text size before turning on shadows, then offset
+your current index into the string by this size.
+
+Note: This is in pixel coordinates.
+*/
+void moveChar(int index, double posX, double posY) {
+    
 }
 
 //! ============================ END GRAPHICS DISPATCH =============================
