@@ -54,25 +54,16 @@ void main()
     Font.createFont("example_fonts/totally_original", "mc", true);    
     Font.selectFont("mc");
     
-    double offset = 0.00;
-    double offsetUp = true;
+    double rads = 0.0;
     
     while (!Window.shouldClose()) {
 
         calculateDelta();
 
-        if (offsetUp) {
-            offset += getDelta();
-            if (offset >= 3) {
-                offset = 3;
-                offsetUp = false;                
-            }
-        } else {
-            offset -= getDelta();
-            if (offset <= 0) {
-                offset = 0;
-                offsetUp = true;
-            }
+        // We're going to get a circulare motion going here
+        rads += getDelta() * 10.0;
+        if (rads >= Math.PI) {
+            rads -= Math.PI2; 
         }
 
         Window.pollEvents();
@@ -91,8 +82,15 @@ void main()
         Font.enableShadows();
         Font.switchColors(1,0,0);
 
-        Font.setShadowOffset(offset,offset);
-        Font.switchShadowColor(0,0,1);
+        // This is simply creating a 2d point from an angle
+        double offsetX = Math.cos(rads);
+        double offsetY = Math.sin(rads);
+
+        // Now we apply it to the shadow
+        Font.setShadowOffset(offsetX, offsetY);
+
+        // You can switch the shadow color on the fly
+        Font.switchShadowColor(0,0,0);
         // Font.disableShadowColoring();
 
         int fontSize = 50;
@@ -100,7 +98,7 @@ void main()
 
         auto textSize = Font.getTextSize(fontSize, hello);
 
-        Font.renderToCanvas(0, 0, fontSize, hello);
+        Font.renderToCanvas(100, 100, fontSize, hello);
 
 
         Font.switchColors(0,0,0);
