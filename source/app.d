@@ -56,9 +56,18 @@ void main()
     
     // I think you get the deal with setting up these vars by now :P
     double rads = 0.0;
+
     int letterIndex = 0;
     double letterOffsetY = 0.0;
-    int letterUp = true;
+    bool letterUp = true;
+    
+    double fancyRotation = 0.0;
+    int fancyIndex = 0;
+
+    int newLetterIndex = 0;
+    double newLetterOffsetY = 0.0;
+    bool newLetterUp = true;
+    double newProgress = 0.0;
     
     while (!Window.shouldClose()) {
 
@@ -150,15 +159,15 @@ void main()
 
         Font.switchColors(0,0,1);
         string moveText = "Woooo!";
-        const auto moveTextFontSize = Font.getTextSize(50, moveText);
+        const auto moveTextFontSize = Font.getTextSize(80, moveText);
         // Enabling shadows for example
         Font.enableShadows();
         // Center it
         double posX = (Window.getWidth / 2.0) - (moveTextFontSize.width / 2.0);
         posY = (Window.getHeight / 2.0) - (moveTextFontSize.height / 2.0);
-        Font.renderToCanvas(posX, posY, fontSize, moveText);
+        Font.renderToCanvas(posX, posY, 80, moveText);
 
-        const int realTextLength = Font.getTextRenderableCharsLength(moveText);
+        int realTextLength = Font.getTextRenderableCharsLength(moveText);
 
         // You'll know why it's (realTextLength * 2) soon
         int cursorPos = Font.getCurrentCharacterIndex() - (realTextLength * 2);
@@ -213,14 +222,90 @@ void main()
         are calculatable properly. 
 
         */
+
+        // Why yes, this is a Vinesauce reference
+        string speen = "Speeeeen";
+
+        Font.enableShadows();
+        Font.switchColors(0.4,0.25,1);
+        Font.switchShadowColor(1,0,0);
+
+        Font.renderToCanvas(posX, posY + 100, 55, speen);
+
+        realTextLength = Font.getTextRenderableCharsLength(speen);
+        cursorPos = Font.getCurrentCharacterIndex() - (realTextLength * 2);
+
+
+        fancyRotation += getDelta() * 10;
+
+        // So math.pi2 is pi * 2 which is 6.28 aka 360 degrees
+        if (fancyRotation >= Math.PI2) {
+            fancyRotation = 0;
+            fancyIndex++;
+            if (fancyIndex >= realTextLength) {
+                fancyIndex = 0;
+            }
+        }
         
+        // We have to do the same thing for the shadows, that we did above
+        Font.rotateChar(cursorPos + fancyIndex, fancyRotation);
+        Font.rotateChar(cursorPos + fancyIndex + realTextLength, fancyRotation);
 
+        /**
+        Let's combine them!
 
+        We're going to reuse some variables from before because I don't feel like
+        making a bunch more for this part :P
+        */
 
+        string combined = "Now combine 'em!";
+        Font.switchColors(0,0,1);
+        Font.enableShadows();
+        Font.renderToCanvas(posX, posY + 200, 55, combined);
 
-        
+        int newRealTextLength = Font.getTextRenderableCharsLength(combined);
+        int newCursorPos = Font.getCurrentCharacterIndex() - (newRealTextLength * 2);
 
-        
+        const double newMultiplier = 100;
+        // Move up
+        if (newLetterUp) {
+            newLetterOffsetY += getDelta() * newMultiplier;
+            newProgress += getDelta() * multiplier;
+
+            if (newLetterOffsetY >= 20) {
+                newLetterOffsetY = 20;
+                newLetterUp = false;
+            }
+        }
+        // Move down
+        else {
+            newLetterOffsetY -= getDelta() * newMultiplier;
+            newProgress += getDelta() * multiplier;
+            
+            if (newLetterOffsetY <= 0) {
+                newLetterOffsetY = 0;
+                newLetterUp = true;
+                // Move to next letter or wrap back around
+                newLetterIndex++;
+                newProgress = 0;
+                if (newLetterIndex >= newRealTextLength) {
+                    newLetterIndex = 0;
+                }
+            }
+        }
+
+        // We're going to offset the foreground by twice as much to create a 3d effect!
+        Font.moveChar(newCursorPos + newLetterIndex, 0, newLetterOffsetY * 2.0);
+        Font.moveChar(newCursorPos + newLetterIndex + newRealTextLength, 0, newLetterOffsetY);
+
+        double newRotation = (newProgress / 40.0) * Math.PI2;
+
+        Font.rotateChar(newCursorPos + newLetterIndex,  newRotation);
+        Font.rotateChar(newCursorPos + newLetterIndex + newRealTextLength, newRotation);
+
+        /**
+        So that's about it, hopefully this library helps you with your game endeavors!
+        */        
             
         Font.render();
         
