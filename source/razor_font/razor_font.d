@@ -818,19 +818,19 @@ void moveChar(int index, double posX, double posY) {
 
     // Top left
     vertexCache[baseIndex    ] += posX; // X
-    vertexCache[baseIndex + 1] += posY; // Y
+    vertexCache[baseIndex + 1] -= posY; // Y
 
     // Bottom left
     vertexCache[baseIndex + 2] += posX; // X
-    vertexCache[baseIndex + 3] += posY; // Y
+    vertexCache[baseIndex + 3] -= posY; // Y
 
     // Bottom right
     vertexCache[baseIndex + 4] += posX; // X
-    vertexCache[baseIndex + 5] += posY; // Y
+    vertexCache[baseIndex + 5] -= posY; // Y
 
     // Top right
     vertexCache[baseIndex + 6] += posX; // X
-    vertexCache[baseIndex + 7] += posY; // Y
+    vertexCache[baseIndex + 7] -= posY; // Y
 
 }
 
