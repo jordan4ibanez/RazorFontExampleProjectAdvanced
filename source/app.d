@@ -9,6 +9,7 @@ import Texture = texture.texture;
 import Math    = doml.math;
 import mesh.mesh;
 import doml.vector_2d;
+import delta_time;
 
 
 //! IMPORTANT: If you did not read the intermediate tutorial, I highly recommend you go and do that!
@@ -53,8 +54,26 @@ void main()
     Font.createFont("example_fonts/totally_original", "mc", true);    
     Font.selectFont("mc");
     
+    double offset = 0.00;
+    double offsetUp = true;
     
     while (!Window.shouldClose()) {
+
+        calculateDelta();
+
+        if (offsetUp) {
+            offset += getDelta();
+            if (offset >= 3) {
+                offset = 3;
+                offsetUp = false;                
+            }
+        } else {
+            offset -= getDelta();
+            if (offset <= 0) {
+                offset = 0;
+                offsetUp = true;
+            }
+        }
 
         Window.pollEvents();
         Camera.clearDepthBuffer();
@@ -67,9 +86,36 @@ void main()
         Shader.setUniformMatrix4("2d", "cameraMatrix", Camera.updateGuiMatrix());
         Shader.setUniformMatrix4("2d", "objectMatrix", Camera.setGuiObjectMatrix() );
 
+        // Alright, let's begin
+
+        Font.enableShadows();
+        Font.switchColors(1,0,0);
+
+        Font.setShadowOffset(offset,offset);
+        Font.switchShadowColor(0,0,1);
+        // Font.disableShadowColoring();
+
+        int fontSize = 50;
+        string hello = "hi there";
+
+        auto textSize = Font.getTextSize(fontSize, hello);
+
+        Font.renderToCanvas(0, 0, fontSize, hello);
+
+
+        Font.switchColors(0,0,0);
+        string infoString = "Sizing auto calculates shadows";
+
+        textSize = Font.getTextSize(fontSize, infoString);
+
+        double posY = Window.getHeight - textSize.height;
+
+        Font.renderToCanvas(0, posY, fontSize, infoString);
+        
+
         
             
-        // Font.render();
+        Font.render();
         
         Window.swapBuffers();
     }
