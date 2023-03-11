@@ -200,6 +200,19 @@ void main()
         So all we have to do is  move it forwards that many times to also move the shadow
         */
         Font.moveChar(cursorPos + letterIndex + realTextLength, 0, letterOffsetY);
+
+        /**
+        Tada!
+        
+        So now lets do some rotation!
+        
+        There's one thing about rotation I want you to remember:
+
+        Since all we have to work with internally are raw vertex positions,
+        you must moveChar() and then rotateChar() so that the vertex centers
+        are calculatable properly. 
+
+        */
         
 
 
