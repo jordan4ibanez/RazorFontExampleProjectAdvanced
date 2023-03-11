@@ -338,6 +338,8 @@ void setShadowOffset(double x, double y) {
 
 /**
 Allows you to blanket set the shadow color for the entire canvas after the current character.
+
+Remember: When you renderToCanvas() shadow colors will default back to black.
 */
 void switchShadowColor(double r, double g, double b, double a = 1.0) {
     shadowColor[0] = r;
@@ -474,6 +476,8 @@ you have to render a background, then a foreground.
 
 You can also do some crazy stuff with shadows because the shadow
 colors are stored in the same color cache as regular text.
+
+Remember: When you renderToCanvas() shadows turn off.
 */
 void enableShadows() {
     shadowsEnabled = true;
