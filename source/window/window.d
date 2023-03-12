@@ -281,6 +281,7 @@ Vector2i getSize() {
 
 void destroy() {
     glfwDestroyWindow(window);
+    glfwTerminate();
 }
 
 double getAspectRatio() {
